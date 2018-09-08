@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="3600">
+	<Properties>
+		<Property name="reviewLogPath">${sys:catalina.home}/logs</Property>
+		<Property name="log-level">info</Property>
+		<Property name="isAsync">false</Property>
+	</Properties>
+	<Appenders>	
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+		</Console>
+		<RollingFile name="review-log" fileName="${sys:reviewLogPath}/review.log"
+			filePattern="${sys:reviewLogPath}/review-%d{yyyy-MM-dd}.log" immediateFlush="true">
+			<PatternLayout>
+				<pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="review-keywords-log" fileName="${sys:reviewLogPath}/review-keywords.log"
+			filePattern="${sys:reviewLogPath}/review-keywords-%d{yyyy-MM-dd}.log" immediateFlush="true">
+			<PatternLayout>
+				<pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+				<SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+		<logger name="com.snapdeal.reviews.api.interceptor.RequestProcessingKeywordsInterceptor" level="INFO" additivity="false">
+			 <appender-ref ref="review-keywords-log"/>
+		</logger>
+		<Root level="${log-level}" includeLocation="false">
+			<AppenderRef ref="console-log" level="WARN"/>
+			<AppenderRef ref="review-log" />
+		</Root>
+	</Loggers>
+</Configuration>

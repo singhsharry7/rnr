@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<aop:aspectj-autoproxy />
+
+	<context:component-scan
+		base-package="com.snapdeal.reviews.exception,
+	com.snapdeal.reviews.event.factory,
+	com.snapdeal.reviews.context,
+	com.snapdeal.reviews.model,
+	com.snapdeal.reviews.event.generate.action,
+	com.snapdeal.reviews.event.consume.action,
+	com.snapdeal.reviews.server.cache.impl,
+	com.snapdeal.reviews.event.generator, 
+	com.snapdeal.reviews.model.query.selector,
+	com.snapdeal.reviews.performance.montior,
+	com.snapdeal.reviews.validator,
+	com.snapdeal.reviews.config,
+	com.snapdeal.reviews.util,
+	com.snapdeal.reviews.external.client.service.impl,
+	com.snapdeal.base.transport, 
+		com.snapdeal.base.aspect,
+		com.snapdeal.base.startup.config, 
+		com.snapdeal.base.services.request,
+		com.snapdeal.product.client.service.impl,
+		com.snapdeal.catalog,
+		com.snapdeal.oms.admin.services,
+		com.snapdeal.oms" />
+
+	<bean
+		class="com.snapdeal.reviews.performance.montior.PerformanceMonitorAspect" />
+
+	<bean class="com.snapdeal.base.startup.config.AppEnvironmentContext"
+		id="appEnvironmentContext">
+		<constructor-arg value="ReviewService" />
+	</bean>
+	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+</beans>
